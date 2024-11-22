@@ -2,18 +2,9 @@ package com.altloc.desktop;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-
-import java.io.IOException;
+import javafx.scene.control.*;
 
 public class LoginController {
-
-    @FXML
-    private Button loginButton;
-
     @FXML
     private TextField email;
 
@@ -23,34 +14,19 @@ public class LoginController {
     @FXML
     private Label wrongLogin;
 
-    public LoginController() {
-        // Конструктор по умолчанию
-    }
+    private final AuthService authService = new AuthService();
 
     @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("userLogin");
-    }
+    public void userLogin(ActionEvent event) {
+        String userEmail = email.getText();
+        String userPassword = password.getText();
 
-    @FXML
-    public void userLogin(ActionEvent event) throws IOException {
-        System.out.println("User login");
-        if (checkLogin()) {
-            System.out.println("Login successful");
+        if (authService.login(userEmail, userPassword)) {
             wrongLogin.setText("");
+            System.out.println("User successfully logged in!");
+            // Действия после успешного входа, например, переход на новый экран.
         } else {
-            System.out.println("Login failed");
             wrongLogin.setText("Invalid email or password");
         }
-    }
-
-    private boolean checkLogin() {
-        String enteredEmail = email.getText();
-        String enteredPassword = password.getText();
-
-        if ("admin@example.com".equals(enteredEmail) && "password123".equals(enteredPassword)) {
-            return true;
-        }
-        return false;
     }
 }

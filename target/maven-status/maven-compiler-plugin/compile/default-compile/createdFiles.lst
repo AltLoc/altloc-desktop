@@ -1,0 +1,4 @@
+com/altloc/desktop/App.class
+module-info.class
+com/altloc/desktop/AuthService.class
+com/altloc/desktop/LoginController.class
