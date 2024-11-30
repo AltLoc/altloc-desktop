@@ -2,6 +2,8 @@ package com.altloc.desktop.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class User {
     private String id;
     private String username;
@@ -11,11 +13,11 @@ public class User {
     private String role;
     private int score;
     private int level;
-    private double currency;
+    private long currency;
     private long createdAt;
 
-    @JsonProperty("isAdmin") // аннотация для маппинга поля JSON "isAdmin" на "isAdmin" в классе
-    private boolean isAdmin; // Только для чтения, без сеттера
+    @JsonProperty("isAdmin")
+    private boolean isAdmin;
 
     // Конструкторы, геттеры и сеттеры
 
@@ -23,7 +25,7 @@ public class User {
     }
 
     public User(String id, String username, String email, boolean emailVerified, String avatarKey,
-            String role, int score, int level, double currency, long createdAt, boolean isAdmin) {
+            String role, int score, int level, long currency, long createdAt, boolean isAdmin) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -102,11 +104,11 @@ public class User {
         this.level = level;
     }
 
-    public double getCurrency() {
+    public long getCurrency() {
         return currency;
     }
 
-    public void setCurrency(double currency) {
+    public void setCurrency(long currency) {
         this.currency = currency;
     }
 
@@ -122,5 +124,50 @@ public class User {
         return isAdmin;
     }
 
-    // Сеттер для isAdmin удален, чтобы он не был изменяемым
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", emailVerified=" + emailVerified +
+                ", avatarKey='" + avatarKey + '\'' +
+                ", role='" + role + '\'' +
+                ", score=" + score +
+                ", level=" + level +
+                ", currency=" + currency +
+                ", createdAt=" + createdAt +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        User user = (User) o;
+        return emailVerified == user.emailVerified &&
+                score == user.score &&
+                level == user.level &&
+                currency == user.currency &&
+                createdAt == user.createdAt &&
+                isAdmin == user.isAdmin &&
+                Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(avatarKey, user.avatarKey) &&
+                Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, emailVerified, avatarKey, role, score, level, currency, createdAt,
+                isAdmin);
+    }
 }

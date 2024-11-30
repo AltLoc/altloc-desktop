@@ -1,7 +1,6 @@
 package com.altloc.desktop.service;
 
-import com.altloc.desktop.model.ApiResponse;
-import com.altloc.desktop.model.User;
+import com.altloc.desktop.model.UserResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
@@ -9,22 +8,28 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class AuthService {
-
-    private static final String BASE_URL = "http://localhost:4000"; // Замените на ваш URL
+    private static AuthService instance; // Singleton instance
     private final OkHttpClient client;
     private final ObjectMapper objectMapper = new ObjectMapper(); // Jackson ObjectMapper для работы с JSON
     private final InMemoryCookieJar cookieJar;
+    private static final String BASE_URL = "http://localhost:4000";
 
-    // Конструктор с настройкой собственного CookieJar
-    public AuthService() {
+    // Приватный конструктор для Singleton
+    private AuthService() {
         cookieJar = new InMemoryCookieJar();
-
         client = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .build();
+    }
+
+    // Метод для получения Singleton instance
+    public static synchronized AuthService getInstance() {
+        if (instance == null) {
+            instance = new AuthService();
+        }
+        return instance;
     }
 
     // Метод для выполнения логина
@@ -70,37 +75,45 @@ public class AuthService {
     }
 
     // Метод для получения текущего пользователя
-    public User getCurrentUser() {
+    public UserResponse getCurrentUser() {
         String url = BASE_URL + "/auth/me"; // URL для получения информации о текущем пользователе
+        HttpUrl httpUrl = HttpUrl.parse(BASE_URL);
 
-        // Получаем доступные куки
-        List<Cookie> cookies = cookieJar.loadForRequest(HttpUrl.get(BASE_URL));
+        // Получаем доступные куки с использованием InMemoryCookieJar
+        List<Cookie> cookies = cookieJar.loadForRequest(httpUrl);
 
         System.out.println("Cookies being sent:");
         cookies.forEach(cookie -> System.out.println(cookie.name() + ": " + cookie.value()));
 
-        // Используем метод extractAccessToken для получения токена
-        Optional<String> accessToken = extractAccessToken(cookies);
+        // Пытаемся извлечь access token из cookies
+        String accessToken = null;
+        for (Cookie cookie : cookies) {
+            if ("access_token".equals(cookie.name())) {
+                accessToken = cookie.value();
+                break;
+            }
+        }
 
-        if (accessToken.isEmpty()) {
+        if (accessToken == null) {
             System.out.println("No access token found in cookies.");
             throw new RuntimeException("No access token found in cookies.");
         }
+
+        System.out.println("Access Token: " + accessToken);
 
         // Создаем GET-запрос с Authorization header
         Request request = new Request.Builder()
                 .url(url)
                 .get()
-                .header("Authorization", "Bearer " + accessToken.get()) // Добавляем Bearer токен
+                .header("Authorization", "Bearer " + accessToken)
                 .header("Accept", "application/json")
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
-                // Обработка успешного ответа
                 String responseBody = response.body() != null ? response.body().string() : "";
                 if (!responseBody.isEmpty()) {
-                    return objectMapper.readValue(responseBody, User.class); // Преобразуем ответ в объект User
+                    return objectMapper.readValue(responseBody, UserResponse.class);
                 } else {
                     throw new RuntimeException("Empty response body");
                 }
@@ -111,13 +124,5 @@ public class AuthService {
             e.printStackTrace();
             throw new RuntimeException("Error while fetching user info", e);
         }
-    }
-
-    // Метод для извлечения токена из куки
-    private Optional<String> extractAccessToken(List<Cookie> cookies) {
-        return cookies.stream()
-                .filter(cookie -> "access_token".equals(cookie.name()))
-                .map(Cookie::value)
-                .findFirst();
     }
 }

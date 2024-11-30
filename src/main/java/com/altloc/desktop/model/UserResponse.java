@@ -1,9 +1,8 @@
 package com.altloc.desktop.model;
 
-public class ApiResponse {
+public class UserResponse {
     private User data;
 
-    // Геттер и сеттер
     public User getData() {
         return data;
     }

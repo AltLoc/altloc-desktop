@@ -1,6 +1,6 @@
 package com.altloc.desktop.service;
 
-import com.altloc.desktop.model.ApiResponse;
+import com.altloc.desktop.model.UserResponse;
 import com.altloc.desktop.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,8 +12,11 @@ public class ApiResponseService {
     public User getUserFromResponse(String responseBody) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         // Десериализуем JSON в ApiResponse
-        ApiResponse apiResponse = objectMapper.readValue(responseBody, ApiResponse.class);
+        UserResponse apiResponse = objectMapper.readValue(responseBody, UserResponse.class);
+
+        System.out.println("Response data: " + apiResponse.getData());
         // Возвращаем объект User из поля data
+
         return apiResponse.getData();
     }
 }

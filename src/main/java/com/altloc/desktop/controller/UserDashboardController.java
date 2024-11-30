@@ -3,7 +3,7 @@ package com.altloc.desktop.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import com.altloc.desktop.model.User;
+import com.altloc.desktop.model.UserResponse;
 import com.altloc.desktop.service.AuthService;
 
 import javafx.application.Platform;
@@ -17,9 +17,15 @@ public class UserDashboardController {
     private Label level;
 
     @FXML
+    private Label email;
+
+    @FXML
     private Label balance;
 
-    private final AuthService authService = new AuthService();
+    @FXML
+    private Label createdAt;
+
+    private final AuthService authService = AuthService.getInstance();
 
     // В контроллере:
     public void initialize() {
@@ -27,15 +33,18 @@ public class UserDashboardController {
         new Thread(() -> {
             try {
                 // Получаем данные о текущем пользователе
-                User user = authService.getCurrentUser();
+                UserResponse user = authService.getCurrentUser();
 
                 // Проверяем, что данные о пользователе существуют
                 if (user != null) {
                     // Обновляем UI компоненты в главном потоке
                     Platform.runLater(() -> {
-                        username.setText(user.getUsername());
-                        level.setText(String.valueOf(user.getLevel()));
-                        balance.setText(String.valueOf(user.getCurrency()));
+                        username.setText(user.getData().getUsername());
+                        level.setText(String.valueOf(user.getData().getLevel()));
+                        email.setText(user.getData().getEmail());
+                        balance.setText(String.valueOf(user.getData().getCurrency()));
+                        createdAt.setText(String.valueOf(user.getData().getCreatedAt()));
+
                     });
                 } else {
                     // Если данных нет, показываем дефолтные значения
@@ -46,7 +55,7 @@ public class UserDashboardController {
                     });
                 }
 
-                System.out.println("Is Admin: " + user.isAdmin());
+                System.out.println("Is Admin: " + user.getData().isAdmin());
             } catch (Exception e) {
                 // Обработка ошибок и отображение дефолтных значений
                 Platform.runLater(() -> {
