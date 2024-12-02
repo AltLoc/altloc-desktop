@@ -2,8 +2,9 @@
 /Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/service/InMemoryCookieJar.java
 /Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/controller/LoginController.java
 /Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/controller/UserDashboardController.java
-/Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/model/ApiResponse.java
 /Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/service/AuthService.java
+/Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/model/UserResponse.java
 /Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/service/ApiResponseService.java
 /Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/module-info.java
+/Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/Utils.java
 /Users/oleh/Desktop/Portfolio_Projects/altloc/altloc-desktop/src/main/java/com/altloc/desktop/App.java

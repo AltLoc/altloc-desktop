@@ -1,0 +1,11 @@
+com/altloc/desktop/service/ApiResponseService.class
+com/altloc/desktop/service/AuthService.class
+com/altloc/desktop/service/AuthService$1.class
+com/altloc/desktop/model/User.class
+com/altloc/desktop/controller/UserDashboardController.class
+com/altloc/desktop/App.class
+com/altloc/desktop/service/InMemoryCookieJar.class
+module-info.class
+com/altloc/desktop/controller/LoginController.class
+com/altloc/desktop/model/UserResponse.class
+com/altloc/desktop/Utils.class

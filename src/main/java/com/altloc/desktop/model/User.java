@@ -4,26 +4,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
+/**
+ * Represents a user in the system with various attributes such as username,
+ * email, score, level, and other account-related information.
+ * This class is used to map user data, typically fetched from a backend
+ * service, and includes fields for the user's personal data,
+ * account details, and role-based access.
+ */
 public class User {
-    private String id;
-    private String username;
-    private String email;
-    private boolean emailVerified;
-    private String avatarKey;
-    private String role;
-    private int score;
-    private int level;
-    private long currency;
-    private long createdAt;
+    private String id; // The unique identifier for the user
+    private String username; // The username chosen by the user
+    private String email; // The email address of the user
+    private boolean emailVerified; // Flag indicating if the user's email is verified
+    private String avatarKey; // Key or identifier for the user's avatar image
+    private String role; // The role of the user (e.g., admin, user, etc.)
+    private int score; // The user's current score in the system
+    private int level; // The user's current level
+    private long currency; // The user's current currency balance
+    private long createdAt; // Timestamp representing when the user account was created
 
     @JsonProperty("isAdmin")
-    private boolean isAdmin;
+    private boolean isAdmin; // Flag indicating if the user has admin privileges
 
-    // Конструкторы, геттеры и сеттеры
-
+    /**
+     * Default constructor for creating a new User instance.
+     */
     public User() {
     }
 
+    /**
+     * Constructs a new User with the provided parameters.
+     *
+     * @param id            The unique identifier for the user
+     * @param username      The username chosen by the user
+     * @param email         The email address of the user
+     * @param emailVerified Flag indicating if the user's email is verified
+     * @param avatarKey     Key or identifier for the user's avatar image
+     * @param role          The role of the user (e.g., admin, user)
+     * @param score         The user's score in the system
+     * @param level         The user's level
+     * @param currency      The user's currency balance
+     * @param createdAt     Timestamp representing when the account was created
+     * @param isAdmin       Flag indicating if the user is an admin
+     */
     public User(String id, String username, String email, boolean emailVerified, String avatarKey,
             String role, int score, int level, long currency, long createdAt, boolean isAdmin) {
         this.id = id;
@@ -39,7 +62,8 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    // Геттеры и сеттеры
+    // Getter and Setter methods for each field
+
     public String getId() {
         return id;
     }
@@ -128,6 +152,11 @@ public class User {
         isAdmin = admin;
     }
 
+    /**
+     * Returns a string representation of the User object.
+     * 
+     * @return A string containing the user's information.
+     */
     @Override
     public String toString() {
         return "User{" +
@@ -145,6 +174,16 @@ public class User {
                 '}';
     }
 
+    /**
+     * Compares this User object with another object for equality.
+     * Two User objects are considered equal if they have the same id, username,
+     * email,
+     * emailVerified status, avatarKey, role, score, level, currency, createdAt
+     * timestamp, and isAdmin status.
+     * 
+     * @param o The object to compare this User to.
+     * @return true if the objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -165,6 +204,15 @@ public class User {
                 Objects.equals(role, user.role);
     }
 
+    /**
+     * Returns a hash code value for the User object.
+     * The hash code is computed based on the user's id, username, email,
+     * emailVerified status,
+     * avatarKey, role, score, level, currency, createdAt timestamp, and isAdmin
+     * status.
+     * 
+     * @return The hash code of the User object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, username, email, emailVerified, avatarKey, role, score, level, currency, createdAt,
