@@ -11,6 +11,7 @@ module com.altloc.desktop {
     opens com.altloc.desktop to javafx.fxml;
     opens com.altloc.desktop.controller to javafx.fxml; // Открываем пакет для FXMLLoader
     opens com.altloc.desktop.model to com.fasterxml.jackson.databind; // Открываем пакет для Jackson
+    opens com.altloc.desktop.game to javafx.fxml; // Открываем пакет для FXMLLoader
 
     exports com.altloc.desktop;
     exports com.altloc.desktop.controller; // Экспортируем контроллеры, если они нужны извне
